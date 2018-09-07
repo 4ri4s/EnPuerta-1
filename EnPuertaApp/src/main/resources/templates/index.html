@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Puerta Admin</title>
+	
+	
+	<!--Font Awesome Icons -->
+	
+	<link rel="stylesheet" href="/Fontawesome/css/solid.css">
+	<link rel="stylesheet" href="/Fontawesome/css/regular.css" >
+	<link rel="stylesheet" href="/Fontawesome/css/brands.css">
+	<link rel="stylesheet" href="/Fontawesome/css/fontawesome.css" >
+	
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="/mdl/material.css">
+	<link rel="stylesheet" href="/Bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/materialize/css/materialize.css">
+	<link rel="stylesheet" href="/MDB/css/mdb.css">
+	<!-- Custom Desing CSS -->
+	<link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+	<!--mdl-color--deep-purple-500 mdl-color-text--grey-100-->
+
+	<div id="pepito" th:insert="fragments/header :: header-largo"></div>
+
+	<nav class="mdl-color--teal-500 mdl-color-text--grey-100 mdl-shadow--4dp">
+		<div class="nav-wrapper">
+			<form action="/socios/listar" method="GET" autocomplete="off">
+				<div class="input-field">
+					<input id="palabraClave" type="search" name="palabraClave" >
+					<label class="label-icon" for="palabraClave">
+						<i class="fas fa-search"></i>
+					</label>
+				</div>
+			</form>
+		</div>
+	</nav>
+	
+	<div class="container-fluid mdl-shadow--4dp">
+		<div class="row d-flex justify-content-between  none-padding">
+			<!--Cheking-->
+			<div class="col-6 none-padding">	
+				<div class="row my-4">
+					<h2 class="display-5">Check In</h2>
+					<div class="table-responsive">
+						<table class="mdl-data-table mdl-js-data-table col-12 table-bordered">
+							<thead class="bg-dark ">
+								<tr>
+									<th scope="col" class="text-white text-center" >Nombre</th>
+									<th scope="col" class="text-white text-center" >Apellido</th>
+									<th scope="col" class="text-white text-center" >DNI</th>
+									<th scope="col" class="text-white text-center" >Check</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-center mdl-color--pink-500 text-white">Eduardo</td>
+									<td class="text-center mdl-color--pink-500 text-white">Virgilio</td>
+									<td class="text-center mdl-color--pink-500 text-white">40808861</td>
+									<td class="text-center mdl-color--pink-500 ">
+										<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent
+										mdl-color--pink-500" href="/socios/checkin/1">
+											Checkin
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<!-- Chekout-->
+			<div class="col-6 none-padding">	
+				<div class="row my-4">
+					<h2 class="display-5">Check Out </h2>
+					<div class="table-responsive">
+						<table class="mdl-data-table mdl-js-data-table col-12 table-bordered">
+							<thead class="bg-dark ">
+								<tr>
+									<th scope="col" class="text-white text-center" >Nombre</th>
+									<th scope="col" class="text-white text-center" >Apellido</th>
+									<th scope="col" class="text-white text-center" >DNI</th>
+									<th scope="col" class="text-white text-center" >Check</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-center mdl-color--deep-purple-500 text-white">Eduardo</td>
+									<td class="text-center mdl-color--deep-purple-500 text-white">Virgilio</td>
+									<td class="text-center mdl-color--deep-purple-500 text-white">40808861</td>
+									<td class="text-center mdl-color--deep-purple-500">
+										<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdl-color--deep-purple-500 " href="/socios/checkout/1">
+											Checkout
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+      
+	<!-- Librerias JS -->
+	<script src="/js/jquery.js"></script>
+	<script src="/js/popper.js"></script>
+	<!-- Framework JS -->
+	<script src="/mdl/material.js"></script>
+	<script src="/Bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/materialize/js/materialize.js"></script>
+	<script src="/MDB/js/mdb.js"></script>
+
+	<script src="/js/puerta.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Puerta Admin</title>
+	
+	<!--Font Awesome Icons -->
+	
+	<link rel="stylesheet" href="/Fontawesome/css/solid.css">
+	<link rel="stylesheet" href="/Fontawesome/css/regular.css" >
+	<link rel="stylesheet" href="/Fontawesome/css/brands.css">
+	<link rel="stylesheet" href="/Fontawesome/css/fontawesome.css" >
+	
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="/mdl/material.css">
+	<link rel="stylesheet" href="/Bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/materialize/css/materialize.css">
+	<link rel="stylesheet" href="/MDB/css/mdb.css">
+	<!-- Custom Desing CSS -->
+	<link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+	
+	<nav class="mdl-color--teal-800 mdl-color-text--grey-100 mdl-shadow--4dp">
+		<div class="nav-wrapper">
+			<a href="/" class="brand-logo center">Puerta 18</a>
+		</div>
+	</nav>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<!-- Formulario de Registo -->
+			<div class="col-6 mx-auto">	
+				<div class="container mdl-shadow--4dp">
+					<div class="row my-4">
+						<div class="mx-auto">
+							<div class="card">
+		                        <div class="card-header">
+		                            <h2 class="mb-0">Registrate</h2>
+		                        </div>
+		                        <div class="card-body">
+		                            <form action="/socios/nuevo/procesar" method="GET" autocomplete="off">
+										<div class="row">
+			                                <div class="input-field">
+									          <i class="fas fa-user prefix"></i>
+									          <input id="nombre" type="text" name="nombre" class="validate">
+									          <label for="nombre">Nombre</label>
+									        </div>
+
+									        <div class="input-field ml-4">
+									          <input id="apellido" type="text" name="apellido" class="validate">
+									          <label for="apellido">Apellido</label>
+									        </div>
+								        </div>
+								        <div class="row">
+			                                <div class="input-field">
+									          <i class="fas fa-calendar-alt prefix"></i>
+									          <input id="nacimiento" type="text" name="nacimiento" class="datepicker">
+									          <label for="nacimiento">Fecha de Nacimiento</label>
+									        </div>
+
+									        <div class="input-field ">
+								        		<i class="fas fa-id-card prefix"></i>
+									          <input id="documento" type="text" name="documento" class="validate">
+									          <label for="documento">DNI</label>
+									        </div>
+								        </div>
+
+								        <div class="row">
+			                                <div class="input-field">
+									          <i class="fas fa-envelope-open prefix"></i>
+									          <input id="correo" type="text" name="email" class="validate">
+									          <label for="correo">Email</label>
+									        </div>
+
+									        <div class="input-field ml-2">
+									        	<i class="fas fa-mobile-alt prefix"></i>	
+									          <input id="celular" type="tel" name="celular" class="validate">
+									          <label for="celular">Celular</label>
+									        </div>
+								        </div>
+
+								        <div class="row">
+			                                <div class="input-field">
+			                                	<i class="fas fa-venus-mars prefix"></i>
+									          	<select name="genero">
+									          		<option value="" disabled selected>Elegí</option>
+										      		<option value="Masculino">Masculino</option>
+										      		<option value="Femenino">Femenino</option>
+										      		<option value="Otro">Otro</option>
+										    	</select>
+											    <label>Genero</label>
+									        </div>
+
+									         <div class="input-field ml-2">
+									        	<i class="fas fa-phone prefix"></i>	
+									          <input id="telefono" type="tel" name="telefono" class="validate">
+									          <label for="telefono">Telefono de Casa</label>
+									        </div>
+								        </div>
+
+								        <div class="row">
+
+			                                <div class="input-field">
+									          <i class="fas fa-child prefix"></i>
+									          <input id="tutor" type="text" name="tutor" class="validate">
+									          <label for="tutor"> Nombre del Tutor</label>
+									        </div>
+
+									        <div class="input-field ml-2">
+									        	<i class="fas fa-at prefix"></i>
+									          <input id="celular_tutor" type="tel" name="celular_tutor" class="validate">
+									          <label for="celular_tutor">Contacto del Tutor</label>
+									        </div>
+								        </div>
+								        <div class="row d-flex justify-content-center">
+									        <button class="btn btn-block btn-registrar waves-effect waves-light" type="submit">
+									        	Registrar
+										 	</button>
+									 	</div>
+	                                </form>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+      
+	<!-- Librerias JS -->
+	<script src="/js/jquery.js"></script>
+	<script src="/js/popper.js"></script>
+	<!-- Framework JS -->
+	<script src="/mdl/material.js"></script>
+	<script src="/Bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/materialize/js/materialize.js"></script>
+	<script src="/MDB/js/mdb.js"></script>
+
+	<script src="/js/puerta.js"></script>
+</body>
+</html>
