@@ -23,11 +23,11 @@
 <body>
 	<!--mdl-color--deep-purple-500 mdl-color-text--grey-100-->
 
-	<div id="pepito" th:insert="fragments/header :: header-largo"></div>
+	<div id="pepito" th:insert="fragments/header :: header"></div>
 
 	<nav class="mdl-color--teal-500 mdl-color-text--grey-100 mdl-shadow--4dp">
 		<div class="nav-wrapper">
-			<form action="/socios/listar" method="GET" autocomplete="off">
+			<form action="/" method="GET" autocomplete="off">
 				<div class="input-field">
 					<input id="palabraClave" type="search" name="palabraClave" >
 					<label class="label-icon" for="palabraClave">
@@ -55,13 +55,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="text-center mdl-color--pink-500 text-white">Eduardo</td>
-									<td class="text-center mdl-color--pink-500 text-white">Virgilio</td>
-									<td class="text-center mdl-color--pink-500 text-white">40808861</td>
+								<tr th:each="socio:${socios}">
+									<td th:text="${socio.nombre}" class="text-center mdl-color--pink-500 text-white">Eduardo</td>
+									<td th:text="${socio.apellido}" class="text-center mdl-color--pink-500 text-white">Virgilio</td>
+									<td th:text="${socio.documento}" class="text-center mdl-color--pink-500 text-white">40808861</td>
 									<td class="text-center mdl-color--pink-500 ">
 										<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent
-										mdl-color--pink-500" href="/socios/checkin/1">
+										mdl-color--pink-500" th:href="|/socios/checkin/${socio.id}|">
 											Checkin
 										</a>
 									</td>
@@ -87,12 +87,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="text-center mdl-color--deep-purple-500 text-white">Eduardo</td>
-									<td class="text-center mdl-color--deep-purple-500 text-white">Virgilio</td>
-									<td class="text-center mdl-color--deep-purple-500 text-white">40808861</td>
+								<tr th:each="socio:${sociosPresentes}">
+									<td th:text="${socio.nombre}" class="text-center mdl-color--deep-purple-500 text-white">Eduardo</td>
+									<td th:text="${socio.apellido}" class="text-center mdl-color--deep-purple-500 text-white">Virgilio</td>
+									<td th:text="${socio.documento}" class="text-center mdl-color--deep-purple-500 text-white">40808861</td>
 									<td class="text-center mdl-color--deep-purple-500">
-										<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdl-color--deep-purple-500 " href="/socios/checkout/1">
+										<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdl-color--deep-purple-500 " th:href="|/socios/checkout/${socio.id}|">
 											Checkout
 										</a>
 									</td>

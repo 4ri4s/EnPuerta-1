@@ -3,9 +3,11 @@ package com.puerta18.app;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.puerta18.model.Socio;
 
 @Controller
 public class SociosController {
@@ -27,50 +31,55 @@ public class SociosController {
 	@GetMapping("/")
 	public String landing(@RequestParam(required=false) String palabraClave,Model template) throws SQLException {
 		
-		/*		if(palabraClave == null) {
-			palabraClave = "";
+		if (palabraClave == null) {
+			palabraClave = "#$%&/()";
 		}
-		
-		Connection connection; 
-		
-		connection = DriverManager.getConnection(
-				env.getProperty("spring.datasource.url"),
-				env.getProperty("spring.datasource.username"),
-				env.getProperty("spring.datasource.password"));
-		PreparedStatement consulta = 
-				connection.prepareStatement("SELECT * FROM Socios WHERE nombre LIKE ? OR apellido LIKE ? OR documento = ?");
-		
+
+		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
+				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
+
+		PreparedStatement consulta = connection
+				.prepareStatement("SELECT * FROM socios "
+						+ "WHERE ( unaccent(lower(nombre)) LIKE unaccent(lower(?)) OR unaccent(lower(apellido)) LIKE unaccent(lower(?)) OR documento LIKE ? ) "
+						+ "AND NOT presente;");
+		// no agregue en el 3 porque debe ser exacto.
 		consulta.setString(1, "%" + palabraClave + "%");
 		consulta.setString(2, "%" + palabraClave + "%");
 		consulta.setString(3, palabraClave);
-		
 		ResultSet resultados = consulta.executeQuery();
-		ArrayList<Socios> losSocios = new ArrayList<Socios>();
-		
-		while ( resultados.next() ) { // ciclo
-			int id_socio = resultados.getInt("id_socio");
+
+		consulta = connection
+				.prepareStatement("SELECT * FROM socios WHERE presente;");
+
+		ResultSet resultadosPresentes = consulta.executeQuery();
+		ArrayList<Socio> socios = new ArrayList<Socio>();
+		ArrayList<Socio> sociosPresentes = new ArrayList<Socio>();
+
+		while (resultados.next()) {
+			int id = resultados.getInt("id");
 			String nombre = resultados.getString("nombre");
 			String apellido = resultados.getString("apellido");
-			String email = resultados.getString("email");
-			String documento = resultados.getString("documento");
-			Date nacimiento = resultados.getDate("nacimiento");
-			String celular = resultados.getString("celular");
-			String genero = resultados.getString("genero");
-			String celular_tutor = resultados.getString("celular_tutor");
-			String telefono = resultados.getString("telefono");
-			String tutor = resultados.getString("tutor");
-			String foto_personal = resultados.getString("foto_personal");
-			String facebook_url = resultados.getString("facebook_url");
-			Boolean presente = resultados.getBoolean("presente");
-			
-			Socios elsocio = new Socios(id_socio,nombre,apellido,email,documento,nacimiento,celular,genero,celular_tutor,telefono,tutor,foto_personal,facebook_url,presente);
-			
-			losSocios.add( elsocio );
-			
+			String mail = resultados.getString("email");
+			String dni = resultados.getString("documento");
+			Socio elsocio = new Socio(id, nombre, apellido, mail, dni);
+			socios.add(elsocio);
+		}
+		
+		while (resultadosPresentes.next()) {
+			int id = resultadosPresentes.getInt("id");
+			String nombre = resultadosPresentes.getString("nombre");
+			String apellido = resultadosPresentes.getString("apellido");
+			String mail = resultadosPresentes.getString("email");
+			String dni = resultadosPresentes.getString("documento");
+			Socio elsocio = new Socio(id, nombre, apellido, mail, dni);
+			sociosPresentes.add(elsocio);
 		}
 
-		template.addAttribute("socios", losSocios);
-		connection.close();*/
+		template.addAttribute("socios", socios);
+		template.addAttribute("sociosPresentes", sociosPresentes);
+
+		connection.close();
 		
 		return "index";
 	}
@@ -130,6 +139,8 @@ public class SociosController {
 		consulta.setString(9, telefono);
 		consulta.setString(10, tutor );
 		
+		consulta.execute();
+		consulta.close();
 		return "redirect:/";
 		
 		
@@ -138,26 +149,40 @@ public class SociosController {
 	
 	@GetMapping("/socios/checkin/{id}") // 
 	public String checkIn(@PathVariable int id , Model template) throws SQLException {
-
 		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
+				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
+		String checkin = "checkin";
+		PreparedStatement consulta = connection
+				.prepareStatement("INSERT INTO  checks(id_socio, momento,tipo)VALUES (?, NOW(), 'in')");
+		consulta.setInt(1, id);
+		consulta.execute();
 		
-		connection = DriverManager.getConnection(
-				env.getProperty("spring.datasource.url"),
-				env.getProperty("spring.datasource.username"),
-				env.getProperty("spring.datasource.password"));
-		return "index";
+		consulta = connection.prepareStatement("UPDATE  socios SET presente = true  WHERE id = ? ");		
+		consulta.setInt( 1, id );
+		consulta.execute ();
+
+		connection.close();
+		return "redirect:/";
 	}
 	
 	@GetMapping("/socios/checkout/{id}") // 
 	public String checkOut(@PathVariable int id , Model template) throws SQLException {
-
 		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
+				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
+		String checkin = "checkin";
+		PreparedStatement consulta = connection
+				.prepareStatement("INSERT INTO  checks(id_socio, momento,tipo)VALUES (?, NOW(), 'out')");
+		consulta.setInt(1, id);
+		consulta.execute();
 		
-		connection = DriverManager.getConnection(
-				env.getProperty("spring.datasource.url"),
-				env.getProperty("spring.datasource.username"),
-				env.getProperty("spring.datasource.password"));
-		return "index";
+		consulta = connection.prepareStatement("UPDATE  socios SET presente = false  WHERE id = ? ");
+		consulta.setInt( 1, id );
+		consulta.execute ();
+
+		connection.close();
+		return "redirect:/";
 	}
 	
 	// estas rutas mas adelante vamos a protegerlas con usuario y contraseña

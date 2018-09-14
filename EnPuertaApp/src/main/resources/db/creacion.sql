@@ -21,6 +21,7 @@ CREATE TABLE public.socios
     celular_tutor text COLLATE pg_catalog."default" NOT NULL,
     telefono text COLLATE pg_catalog."default" NOT NULL,
     tutor text COLLATE pg_catalog."default" NOT NULL,
+    presente boolean NOT NULL DEFAULT false,
     CONSTRAINT socios_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -42,3 +43,4 @@ WITH (
 )
 TABLESPACE pg_default;
 
+CREATE EXTENSION IF NOT EXISTS unaccent;

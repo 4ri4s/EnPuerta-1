@@ -2,9 +2,9 @@ package com.puerta18.model;
 
 import java.sql.Date;
 
-public class Socios {
+public class Socio {
 
-	int	id_socio;
+	int	id;
 	String nombre;
 	String apellido;
 	String email;
@@ -19,11 +19,11 @@ public class Socios {
 	String facebook_url; 
 	Boolean presente;
 	
-	public Socios(int id_socio, String nombre, String apellido, String email, String documento, Date nacimiento,
+	public Socio(int id_socio, String nombre, String apellido, String email, String documento, Date nacimiento,
 			String celular, String genero, String celular_tutor, String telefono, String tutor, String foto_personal,
 			String facebook_url, Boolean presente) {
 		super();
-		this.id_socio = id_socio;
+		this.id = id_socio;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.email = email;
@@ -39,12 +39,19 @@ public class Socios {
 		this.presente = presente;
 	}
 
-	public int getId_socio() {
-		return id_socio;
+	public Socio(int id, String nombre, String apellido, String mail, String dni) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.documento = dni;
 	}
 
-	public void setId_socio(int id_socio) {
-		this.id_socio = id_socio;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNombre() {
