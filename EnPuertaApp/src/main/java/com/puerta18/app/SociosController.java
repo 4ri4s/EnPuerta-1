@@ -30,42 +30,44 @@ public class SociosController {
 	// y tambien muestra los resultados con un parametro no requerido 
 	@GetMapping("/")
 	public String landing(@RequestParam(required=false) String palabraClave,Model template) throws SQLException {
-		
-		if (palabraClave == null) {
-			palabraClave = "#$%&/()";
-		}
 
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
 				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
-		PreparedStatement consulta = connection
-				.prepareStatement("SELECT * FROM socios "
-						+ "WHERE ( unaccent(lower(nombre)) LIKE unaccent(lower(?)) OR unaccent(lower(apellido)) LIKE unaccent(lower(?)) OR documento LIKE ? ) "
-						+ "AND NOT presente;");
-		// no agregue en el 3 porque debe ser exacto.
-		consulta.setString(1, "%" + palabraClave + "%");
-		consulta.setString(2, "%" + palabraClave + "%");
-		consulta.setString(3, palabraClave);
-		ResultSet resultados = consulta.executeQuery();
+		PreparedStatement consulta;
+		if (palabraClave != null) {
+
+			consulta = connection
+					.prepareStatement("SELECT * FROM socios "
+							+ "WHERE ( unaccent(lower(nombre)) LIKE unaccent(lower(?)) OR unaccent(lower(apellido)) LIKE unaccent(lower(?)) OR documento LIKE ? ) "
+							+ "AND NOT presente;");
+
+			consulta.setString(1, "%" + palabraClave + "%");
+			consulta.setString(2, "%" + palabraClave + "%");
+			consulta.setString(3, palabraClave);
+			ResultSet resultados = consulta.executeQuery();
+			ArrayList<Socio> socios = new ArrayList<Socio>();
+
+			while (resultados.next()) {
+				int id = resultados.getInt("id");
+				String nombre = resultados.getString("nombre");
+				String apellido = resultados.getString("apellido");
+				String mail = resultados.getString("email");
+				String dni = resultados.getString("documento");
+				Socio elsocio = new Socio(id, nombre, apellido, mail, dni);
+				socios.add(elsocio);
+			}
+
+			template.addAttribute("socios", socios);
+		}
 
 		consulta = connection
 				.prepareStatement("SELECT * FROM socios WHERE presente;");
 
 		ResultSet resultadosPresentes = consulta.executeQuery();
-		ArrayList<Socio> socios = new ArrayList<Socio>();
 		ArrayList<Socio> sociosPresentes = new ArrayList<Socio>();
 
-		while (resultados.next()) {
-			int id = resultados.getInt("id");
-			String nombre = resultados.getString("nombre");
-			String apellido = resultados.getString("apellido");
-			String mail = resultados.getString("email");
-			String dni = resultados.getString("documento");
-			Socio elsocio = new Socio(id, nombre, apellido, mail, dni);
-			socios.add(elsocio);
-		}
-		
 		while (resultadosPresentes.next()) {
 			int id = resultadosPresentes.getInt("id");
 			String nombre = resultadosPresentes.getString("nombre");
@@ -76,7 +78,6 @@ public class SociosController {
 			sociosPresentes.add(elsocio);
 		}
 
-		template.addAttribute("socios", socios);
 		template.addAttribute("sociosPresentes", sociosPresentes);
 
 		connection.close();
