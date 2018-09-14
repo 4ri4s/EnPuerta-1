@@ -27,7 +27,9 @@ Ctrl + Shift + F de felicidad
 
 ## Deployment
 
-http://enpuerta.herokuapp.com Hacemos deploy al server de pruebas desde Heroku.
+Desde Heroku.
+
+http://enpuerta.herokuapp.com 
 
 ## Hecho con
 
